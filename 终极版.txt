@@ -1,0 +1,444 @@
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+    struct Con
+	{
+        char num[10];
+        char name[10];
+        int age;
+        char gen[10];
+		char bor[10];
+		char add[10];
+		char phone[10];
+		char mail[10];
+	}student[10];
+	int a,n,j,m,count=6,b=1;
+	char p1[3];
+	FILE *fp;
+	fp=fopen("d:\\student.txt","r");
+	if(fp==NULL){
+		printf("文件打开失败");
+	}
+    for(a=0;a<=count;a++)
+        fscanf(fp,"%s%s%d%s%s%s%s%s",student[a].num,student[a].name,&student[a].age,student[a].gen,student[a].bor,student[a].add,student[a].phone,student[a].mail);
+	scanf("%d",&n);
+	if(n==5)
+		printf("请输入学号");
+	while(b==1)
+	{
+		scanf("%s",p1);
+	if(strcmp(p1,student[0].num)==0)
+	{m=0;}
+	if(strcmp(p1,student[1].num)==0)
+		m=1;
+	if(strcmp(p1,student[2].num)==0)
+		m=2;
+	if(strcmp(p1,student[3].num)==0)
+		m=3;
+	if(strcmp(p1,student[4].num)==0)
+		m=4;
+	if(strcmp(p1,student[5].num)==0)
+		m=5;
+	if(strcmp(p1,student[6].num)==0)
+		m=6;
+	for(j=m;j<10;j++)
+	{
+		strcpy(student[j].num,student[j+1].num);
+		strcpy(student[j].name,student[j+1].name);
+	    student[j].age=student[j+1].age;
+		strcpy(student[j].gen,student[j+1].gen);
+		strcpy(student[j].bor,student[j+1].bor);
+		strcpy(student[j].add,student[j+1].add);
+		strcpy(student[j].phone,student[j+1].phone);
+		strcpy(student[j].mail,student[j+1].mail);
+	}
+	count--;
+	fclose (fp);	
+	fp=fopen("d:\\student.txt","w");
+    for(a=0;a<=count;a++)
+		fprintf(fp,"%s %s %d %s %s %s %s %s\n",student[a].num,student[a].name,student[a].age,student[a].gen,student[a].bor,student[a].add,student[a].phone,student[a].mail);
+	printf("删除成功");
+	printf("是否继续删除？继续请输入1，返回主菜单请输入2");
+	scanf("%d",&b);
+	}
+    fclose (fp);    
+	return 0;
+}
+
+
+
+#include <stdio.h>
+#include <string.h>
+#include <windows.h>
+#define	N 100
+#define L 20 
+int n,t;
+struct  Con
+	{
+		char code[L];
+		char name[L];
+		int age;
+		char sex[L];
+		char birth[L];
+		char add[L];
+		char tell[L];
+		char email[L];
+	}stu [N];
+
+int main()
+{
+	int x;
+	void help();
+	void seek();
+	void show();
+	void find();
+	void pre();
+	void append();
+	void coll();
+	void del();
+	void menu();
+	menu();
+	system("title 山东管理学院信息工程学院学生管理系统");
+	while(scanf("%d",&x)!=EOF)
+	{
+		switch(x)
+		{
+		case 0: help();break;
+		case 1:seek();break;
+		case 2:find();break;
+		case 3:coll();break;
+		case 4:append();break;
+		case 5:del();break;
+		case 6:show();break;
+		case 7:pre(); break;
+		case 8:system("cls");system("color 4");printf("\t\t------★---退出成功!------★---\n");break; 
+		}
+		if(x==8)
+			break;
+	}
+	return 0;
+}
+void help()                                                          //系统帮助说明
+{
+	printf("\n0.欢迎使用系统帮助！\n");
+    printf("\n1.进入系统后先刷新学生信息，再查询信息\n");
+	printf("\n2.按照菜单提示键输入数字代号\n");
+	printf("\n3.增加信息后切记保存\n");
+	printf("\n4.谢谢您的使用\n");
+}
+void seek()                                                                        //刷新学生信息
+{
+	int i=0;
+	FILE *fp;
+	fp = fopen("d:\\student.txt","r+");
+	if(fp==NULL)
+		printf("打开文件错误");
+	while(fscanf(fp,"%s%s%d%s%s%s%s%s",stu[i].code,stu[i].name,&stu[i].age,stu[i].sex,stu[i].birth,stu[i].add,stu[i].tell,stu[i].email)==8)
+		i++;
+	n=i;
+	t=n;
+	printf("         ------★---刷新完毕!------★---\n");
+}
+void show()																			//显示当前信息
+{
+	int i;
+	seek();
+	for(i=0;i<=n-1;i++)
+		printf("%s %s %d %s %s %s %s %s\n",stu[i].code,stu[i].name,stu[i].age,stu[i].sex,stu[i].birth,stu[i].add,stu[i].tell,stu[i].email);
+}
+void find()                                                                           //查找学生信息
+{
+	void menu();
+	int chos,j;
+	char exp[20];
+	printf("------1按学号查询-----\n");
+	printf("------2按姓名查询-----\n");
+	printf("-------3退出本菜单-----\n");
+	printf("--------------------\n");
+	printf("请输入菜单编号：");
+	seek();
+	while(scanf("%d",&chos)!=EOF)
+	{
+	if(chos==1)
+	{
+		printf("请输入学号：\n");
+		scanf("%s",exp);
+		for(j=0;j<=n;j++)
+		{
+			if(strcmp(exp,stu[j].code)==0)
+				printf("%s %s %d %s %s %s %s %s\n",stu[j].code,stu[j].name,stu[j].age,stu[j].sex,stu[j].birth,stu[j].add,stu[j].tell,stu[j].email);
+		}
+		printf("------1按学号查询-----\n");
+		printf("------2按姓名查询-----\n");
+		printf("-------3退出本菜单-----\n");
+		printf("--------------------\n");
+		printf("请输入菜单编号：\n");
+	}
+	else if(chos==2)
+	{
+		printf("请输入名字\n");
+		scanf("%s",exp);
+		for(j=0;j<=n;j++)
+	{
+			if(strcmp(exp,stu[j].name)==0)
+				printf("%s %s %d %s %s %s %s %s\n",stu[j].code,stu[j].name,stu[j].age,stu[j].sex,stu[j].birth,stu[j].add,stu[j].tell,stu[j].email);
+	}
+		printf("------1按学号查询-----\n");
+		printf("------2按姓名查询-----\n");
+		printf("-------3退出本菜单-----\n");
+		printf("--------------------\n");
+		printf("请输入菜单编号：");
+	}
+	else if(chos==3)
+	{	
+		system("cls");
+		menu();
+		break;
+	}
+
+	}
+}
+void pre()																	//保存当前信息
+{   
+	int i;
+	FILE *fp;
+	fp = fopen("d:\\student.txt","w");
+	if(fp==NULL)
+		printf("打开文件错误");
+		for(i=0;i<n;i++)
+			fprintf(fp,"%s %s %d %s %s %s %s %s\n",stu[i].code,stu[i].name,stu[i].age,stu[i].sex,stu[i].birth,stu[i].add,stu[i].tell,stu[i].email);
+	fclose(fp);
+}
+void append()															//增加学生信息
+{
+	void menu();
+	FILE *fp;
+	fp = fopen("d:\\student.txt","a+");
+	if(fp==NULL)
+		printf("打开文件错误");	
+	printf("  -----------------请输入学生信息-------------------\n");
+	printf("  学号 姓名 年龄 性别 出生年月 住址 电话 电子邮箱\n");
+	scanf("  %s %s %d %s %s %s %s %s",stu[t+1].code,stu[t+1].name,&stu[t+1].age,stu[t+1].sex,stu[t+1].birth,stu[t+1].add,stu[t+1].tell,stu[t+1].email);
+	fprintf(fp,"%s %s %d %s %s %s %s %s ",stu[t+1].code,stu[t+1].name,stu[t+1].age,stu[t+1].sex,stu[t+1].birth,stu[t+1].add,stu[t+1].tell,stu[t+1].email);
+	fclose(fp);
+	t++;
+	printf("添加完成！\n");
+	menu();
+	
+}
+void coll()                                                             //修改学生信息
+{
+	void menu();
+	int chos,j,i=0;
+	char exp[20];
+	FILE *fp;
+	printf("学生目录：\n");
+	show();
+	fp = fopen("d:\\student.txt","w");
+	printf("1.按照学号修改\n");
+	printf("2.按照姓名修改\n");
+	printf("3.退出\n");
+	printf("请输入菜单编号：");
+	while(scanf("%d",&chos)!=EOF)
+	{
+	if(chos==1)
+	{
+		printf("请输入学号\n");
+		scanf("%s",exp);
+		for(j=0;j<=n;j++)
+		{
+			if(strcmp(exp,stu[j].code)==0)
+			{
+			printf("%s %s %d %s %s %s %s %s\n",stu[j].code,stu[j].name,stu[j].age,stu[j].sex,stu[j].birth,stu[j].add,stu[j].tell,stu[j].email);
+			printf("        ----------★-----选择修改方向-----★--------");	
+			printf("            |=================================|\n");
+	        printf("            |   1.修改学号      2.修改名字    |\n");
+	        printf("            |=================================|\n");
+	        printf("            |   3.修改年龄      4.修改性别    |\n");
+        	printf("            |=================================|\n");
+        	printf("            |   5.修改生日      6.修改地址    |\n");
+	        printf("            |=================================|\n");
+	        printf("            |   7.修改手机号    8.修改电子邮箱|\n");
+	        printf("            |=================================|\n");
+        	printf("            |           9.退出本菜单          |\n");
+	        printf("            |=================================|\n");
+			scanf("%d",&chos);
+			switch(chos)
+			{
+			case 1:
+	        printf("       ---------------请填入新的学号-------------\n");
+				scanf("%s",stu[j].code);break;
+			case 2:
+			printf("       --------------请输入新的姓名--------------\n");
+				scanf("%s",stu[j].name);break;
+			case 3:
+			printf("      ---------------请输入新的年龄--------------\n");
+				scanf("%s",stu[j].age);break;
+			case 4:
+			printf("      ---------------请输入新的性别--------------\n");
+				scanf("%s",stu[j].sex);break;
+			case 5:
+           printf("       -------------请输入新的出生年月------------\n");
+				scanf("%s",stu[j].birth);break;
+			case 6:
+			printf("      ---------------请输入新的地址--------------\n");	
+				scanf("%s",stu[j].add);break;
+			case 7:
+			printf("      ---------------请输入新的手机号------------\n");	
+				scanf("%s",stu[j].tell);break;
+			case 8:
+			printf("      --------------请输入新的电子邮箱-----------\n");	
+				scanf("%s",stu[j].email);break;
+			}
+			printf("%s %s %d %s %s %s %s %s",stu[j].code,stu[j].name,stu[j].age,stu[j].sex,stu[j].birth,stu[j].add,stu[j].tell,stu[j].email);
+			pre();
+			}
+			system("cls");
+			printf("1.按照学号修改\n");
+			printf("2.按照姓名修改\n");
+			printf("3.退出\n");
+			printf("请输入菜单编号：");	
+		}
+	}
+	else if(chos==2)
+	{
+		printf("请输入姓名\n");
+		scanf("%s",exp);
+		for(j=0;j<=n;j++)
+	{
+			if(strcmp(exp,stu[j].name)==0)
+			{
+				printf("%s %s %d %s %s %s %s %s\n",stu[j].code,stu[j].name,stu[j].age,stu[j].sex,stu[j].birth,stu[j].add,stu[j].tell,stu[j].email);
+				printf("        ----------★-----选择修改方向-----★--------");	
+				printf("            |=================================|\n");
+				printf("            |   1.修改学号      2.修改名字    |\n");
+				printf("            |=================================|\n");
+			    printf("            |   3.修改年龄      4.修改性别    |\n");
+				printf("            |=================================|\n");
+        		printf("            |   5.修改生日      6.修改地址    |\n");
+				printf("            |=================================|\n");
+				printf("            |   7.修改手机号    8.修改电子邮箱|\n");
+				printf("            |=================================|\n");
+        		printf("            |           9.退出本菜单          |\n");
+				printf("            |=================================|\n");
+			scanf("%d",&chos);
+			switch(chos)
+			{
+			case 1:
+	        printf("       ---------------请填入新的学号-------------\n");
+				scanf("%s",stu[j].code);break;
+			case 2:
+			printf("       --------------请输入新的姓名--------------\n");
+				scanf("%s",stu[j].name);break;
+			case 3:
+			printf("      ---------------请输入新的年龄--------------\n");
+				scanf("%d",stu[j].age);break;
+			case 4:
+			printf("      ---------------请输入新的性别--------------\n");
+				scanf("%s",stu[j].sex);break;
+			case 5:
+           printf("       -------------请输入新的出生年月------------\n");
+				scanf("%s",stu[j].birth);break;
+			case 6:
+			printf("      ---------------请输入新的地址--------------\n");	
+				scanf("%s",stu[j].add);break;
+			case 7:
+			printf("      ---------------请输入新的手机号------------\n");	
+				scanf("%s",stu[j].tell);break;
+			case 8:
+			printf("      --------------请输入新的电子邮箱-----------\n");	
+				scanf("%s",stu[j].email);break;
+			}
+			printf("%s %s %d %s %s %s %s %s\n",stu[j].code,stu[j].name,&stu[j].age,stu[j].sex,stu[j].birth,stu[j].add,stu[j].tell,stu[j].email);	
+			pre();
+			}
+			system("cls");
+			printf("1.按照学号修改\n");
+			printf("2.按照姓名修改\n");
+			printf("3.退出\n");
+			printf("请输入菜单编号：");
+			}
+	}
+	else if(chos==3)
+	{
+		system("cls");
+		menu();
+		break;
+	}
+}
+}
+void del()
+{
+	void menu();
+	int j=0;
+	int a,m,b=1;
+	char p1[20];
+	FILE *fp;
+	printf("学生目录\n");
+	show();
+	fp = fopen("d://student.txt","r+");
+	while(b==1)
+	{
+	printf("请输入学号:\n");
+	scanf("%s",p1);
+	if(strcmp(p1,stu[0].code)==0)
+		m=0;
+	if(strcmp(p1,stu[1].code)==0)
+		m=1;
+	if(strcmp(p1,stu[2].code)==0)
+		m=2;
+	if(strcmp(p1,stu[3].code)==0)
+		m=3;
+	if(strcmp(p1,stu[4].code)==0)
+		m=4;
+	if(strcmp(p1,stu[5].code)==0)
+		m=5;
+	if(strcmp(p1,stu[6].code)==0)
+		m=6;
+	for(j=m;j<10;j++)
+	{
+		strcpy(stu[j].code,stu[j+1].code);
+		strcpy(stu[j].name,stu[j+1].name);
+	    	stu[j].age=stu[j+1].age;
+		strcpy(stu[j].sex,stu[j+1].sex);
+		strcpy(stu[j].birth,stu[j+1].birth);
+		strcpy(stu[j].add,stu[j+1].add);
+		strcpy(stu[j].tell,stu[j+1].tell);
+		strcpy(stu[j].email,stu[j+1].email);
+	}
+	t--;
+	fclose (fp);	
+	fp=fopen("d:\\student.txt","w");
+    for(a=0;a<=t-1;a++)
+		fprintf(fp,"%s %s %d %s %s %s %s %s\n",stu[a].code,stu[a].name,stu[a].age,stu[a].sex,stu[a].birth,stu[a].add,stu[a].tell,stu[a].email);
+	printf("删除成功");
+	printf("是否继续删除？继续请输入1，返回主菜单请输入2\n");
+	scanf("%d",&b);
+	if(b==2)
+		system("cls");
+		menu();
+	}
+    fclose (fp);    
+	
+
+}
+void menu()
+{   printf("  ----★-----山东管理学院信息工程学院学生信息管理系统-----★----\n");
+	printf("==================================================================\n");
+	printf("             ==============系统功能菜单==============\n");
+	printf("             =======友情提醒:查询前请刷新系统!=======\n");
+	printf("             ========================================\n");
+	printf("            |========================================|\n");
+	printf("            |  0.系统帮助说明     1.刷新学生信息     |\n");
+	printf("            |----------------------------------------|\n");
+	printf("            |  2.查询学生信息     3.修改学生信息     |\n");
+	printf("            |----------------------------------------|\n");
+	printf("            |  4.增加学生信息     5.按学号删信息     |\n");
+	printf("            |----------------------------------------|\n");
+	printf("            |  6.显示当前信息     7.保存当前信息     |\n");
+	printf("            |----------------------------------------|\n");
+	printf("            |              8.退出系统                |\n");
+	printf("            |========================================|\n");
+	printf("            ==========================================\n");
+}
